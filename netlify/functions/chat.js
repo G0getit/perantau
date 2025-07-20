@@ -1,5 +1,5 @@
 exports.handler = async (event, context) => {
-  // Handle CORS preflight
+  // Handle CORS
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -22,6 +22,17 @@ exports.handler = async (event, context) => {
   try {
     const body = JSON.parse(event.body);
     
+    // Send to n8n webhook
+    const n8nResponse = await fetch('http://localhost:5678/webhook-test/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    });
+
+    const n8nData = await n8nResponse.json();
+    
     return {
       statusCode: 200,
       headers: {
@@ -29,7 +40,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        response: `Hello! I received your message: "${body.message}". The backend function is working correctly.` 
+        response: n8nData.response || 'Message processed successfully'
       })
     };
   } catch (error) {
