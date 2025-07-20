@@ -89,7 +89,7 @@
             background: #2a2a2a;
             border-radius: 16px;
             padding: 30px;
-            max-width: 400px;
+            max-width: 450px;
             width: 90%;
             border: 1px solid #3a3a3a;
         }
@@ -138,6 +138,27 @@
 
         .form-input::placeholder {
             color: #888;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-input {
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            accent-color: #ff6b35;
+        }
+
+        .checkbox-label {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
         }
 
         .modal-button {
@@ -206,11 +227,31 @@
             padding: 20px;
             overflow-y: auto;
             border: 1px solid #3a3a3a;
+            position: relative;
         }
 
         .chat-window.visible {
             display: flex;
             flex-direction: column;
+        }
+
+        /* Reset Button */
+        .reset-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #555;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #ffffff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .reset-button:hover {
+            background: #666;
         }
 
         .message {
@@ -407,33 +448,6 @@
                 height: 80vh;
             }
         }
-
-        // Show user info modal
-        function showUserInfoModal() {
-            userInfoModal.style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('userName').focus();
-            }, 100);
-        }
-
-        // Hide user info modal
-        function hideUserInfoModal() {
-            userInfoModal.style.display = 'none';
-        }
-
-        // Handle user info form submission
-        userInfoForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('userName').value.trim();
-            const email = document.getElementById('userEmail').value.trim();
-            
-            if (name && email) {
-                userInfo = { name, email };
-                hideUserInfoModal();
-                chatInput.focus();
-            }
-        });
     </style>
 </head>
 <body>
@@ -455,7 +469,8 @@
 
             <!-- Chat Window (hidden initially) -->
             <div class="chat-window" id="chatWindow">
-                <div id="messagesContainer" style="flex: 1; display: flex; flex-direction: column;"></div>
+                <button class="reset-button" id="resetButton">🔄 New Session</button>
+                <div id="messagesContainer" style="flex: 1; display: flex; flex-direction: column; margin-top: 30px;"></div>
             </div>
 
             <!-- Chat Input Area -->
@@ -484,7 +499,7 @@
                     <div class="disclaimer-content">
                         <div class="disclaimer-icon">💡</div>
                         <div class="disclaimer-text">
-                            <strong>Disclaimer:</strong> The information provided by this chatbot is intended to give you partial or complete answers depending on question complexity. Always verify all information with official sources (government websites or authorized staff) at the time of your inquiry to ensure accuracy and currency of the information.
+                            <strong>Disclaimer:</strong> The information provided by this chatbot is intended to give you partial or complete answers depending on question complexity. Always verify all information with official sources (government websites or authorized staff) at the time of your inquiry to ensure accuracy and currency of the information. <strong>Do not include any sensitive or private information.</strong>
                         </div>
                     </div>
                 </div>
@@ -505,7 +520,7 @@
         <div class="modal-content">
             <div class="modal-title">Welcome to PANTAU!</div>
             <div class="modal-subtitle">
-                Before we start, please share your details so we can improve our service and provide you with better support.
+                This is a test version of this bot. Please enter your first name and email for us to get your feedback to further improve this bot.
             </div>
             <form id="userInfoForm">
                 <div class="form-group">
@@ -516,6 +531,10 @@
                     <label class="form-label" for="userEmail">Email Address *</label>
                     <input type="email" id="userEmail" class="form-input" placeholder="Enter your email address" required>
                 </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="consentCheckbox" class="checkbox-input" required>
+                    <label for="consentCheckbox" class="checkbox-label">I consent to receiving an email from the team.</label>
+                </div>
                 <button type="submit" class="modal-button" id="submitUserInfo">Start Chatting</button>
             </form>
         </div>
@@ -523,7 +542,7 @@
 
     <script>
         // Configuration - Webhook URL (will be handled by Netlify function)
-        const WEBHOOK_URL = '/.netlify/functions/chat'; // Correct Netlify function path
+        const WEBHOOK_URL = '/.netlify/functions/chat';
 
         // Security: Rate limiting
         let lastMessageTime = 0;
@@ -539,12 +558,63 @@
         const welcomeText = document.getElementById('welcomeText');
         const userInfoModal = document.getElementById('userInfoModal');
         const userInfoForm = document.getElementById('userInfoForm');
+        const resetButton = document.getElementById('resetButton');
 
         let isFirstMessage = true;
         let isThinking = false;
         let userInfo = null;
+        let sessionId = null;
 
-        // Show user info modal immediately on page load
+        // Generate session ID
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // Initialize session ID on page load
+        sessionId = generateSessionId();
+
+        // Local storage functions
+        function saveUserInfo(info) {
+            localStorage.setItem('pantau_user_info', JSON.stringify(info));
+        }
+
+        function loadUserInfo() {
+            const saved = localStorage.getItem('pantau_user_info');
+            return saved ? JSON.parse(saved) : null;
+        }
+
+        function clearUserInfo() {
+            localStorage.removeItem('pantau_user_info');
+        }
+
+        // Check for saved user info on page load
+        function checkSavedUserInfo() {
+            const savedUserInfo = loadUserInfo();
+            if (savedUserInfo) {
+                userInfo = savedUserInfo;
+                document.getElementById('userName').value = userInfo.name;
+                document.getElementById('userEmail').value = userInfo.email;
+                // Don't show modal if user info is already saved
+                return true;
+            }
+            return false;
+        }
+
+        // Reset session function
+        function resetSession() {
+            sessionId = generateSessionId();
+            messagesContainer.innerHTML = '';
+            chatInterface.classList.remove('expanded');
+            chatWindow.classList.remove('visible');
+            templateButtons.classList.remove('hidden');
+            welcomeText.style.display = 'block';
+            isFirstMessage = true;
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            console.log('New session started:', sessionId);
+        }
+
+        // Show user info modal
         function showUserInfoModal() {
             userInfoModal.style.display = 'flex';
             setTimeout(() => {
@@ -563,13 +633,18 @@
             
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
+            const consent = document.getElementById('consentCheckbox').checked;
             
-            if (name && email) {
-                userInfo = { name, email };
+            if (name && email && consent) {
+                userInfo = { name, email, consent };
+                saveUserInfo(userInfo); // Save to localStorage
                 hideUserInfoModal();
                 chatInput.focus();
             }
         });
+
+        // Reset button event listener
+        resetButton.addEventListener('click', resetSession);
 
         // Template button sets (randomly choose one set on page load)
         const templateSets = [
@@ -624,8 +699,6 @@
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
 
-        // Template button handlers (will be added by initializeTemplateButtons)
-
         // Send message function
         async function sendMessage() {
             const message = chatInput.value.trim();
@@ -675,7 +748,8 @@
                     body: JSON.stringify({
                         message: message,
                         timestamp: new Date().toISOString(),
-                        user: userInfo
+                        user: userInfo,
+                        sessionId: sessionId
                     })
                 });
 
@@ -752,11 +826,13 @@
             }
         });
 
-        // Initialize template buttons on page load and show user modal
+        // Initialize on page load
         initializeTemplateButtons();
         
-        // Show user info modal when page loads
-        showUserInfoModal();
+        // Check for saved user info, if not found, show modal
+        if (!checkSavedUserInfo()) {
+            showUserInfoModal();
+        }
     </script>
 </body>
 </html>
