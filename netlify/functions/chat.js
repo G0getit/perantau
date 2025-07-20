@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
     const body = JSON.parse(event.body);
     
     // Send to n8n webhook
-    const n8nResponse = await fetch('http://localhost:5678/webhook-test/chat', {
+    const n8nResponse = await fetch('https://primary-production-fcb2.up.railway.app/webhook-test/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
