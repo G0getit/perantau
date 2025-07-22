@@ -459,6 +459,41 @@
                 font-size: 11px;
                 padding: 6px 10px;
             }
+            .feedback-section {
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid #4a4a4a;
+            }
+
+            .feedback-question {
+                font-size: 12px;
+                color: #999;
+                margin-bottom: 8px;
+            }
+
+            .feedback-buttons {
+                display: flex;
+                gap: 8px;
+            }
+
+            .feedback-btn {
+                background: transparent;
+                border: 1px solid #555;
+                border-radius: 16px;
+                padding: 4px 8px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.2s ease;
+            }
+
+            .feedback-btn:hover {
+                border-color: #ff6b35;
+            }
+
+            .feedback-btn.selected {
+                background: #ff6b35;
+                border-color: #ff6b35;
+            }
         }
     </style>
 </head>
@@ -796,7 +831,22 @@
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = text.replace(/\n/g, '<br>');
+            messageDiv.textContent = text;
+    
+            // Add feedback buttons for AI responses
+            if (sender === 'ai') {
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'feedback-section';
+                feedbackDiv.innerHTML = `
+                    <div class="feedback-question">Was this helpful?</div>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn thumbs-up" data-feedback="helpful">👍</button>
+                        <button class="feedback-btn thumbs-down" data-feedback="not-helpful">👎</button>
+                    </div>
+                `;
+                messageDiv.appendChild(feedbackDiv);
+            }
+            
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
@@ -848,6 +898,43 @@
         // Check for saved user info, if not found, show modal
         if (!checkSavedUserInfo()) {
             showUserInfoModal();
+        }
+        // Handle feedback button clicks
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('feedback-btn')) {
+                const feedbackType = e.target.getAttribute('data-feedback');
+                const messageElement = e.target.closest('.message');
+                const messageText = messageElement.textContent.replace('Was this helpful?👍👎', '').trim();
+                
+                // Mark button as selected
+                e.target.classList.add('selected');
+                e.target.parentNode.querySelectorAll('.feedback-btn').forEach(btn => {
+                    if (btn !== e.target) btn.disabled = true;
+                });
+                
+                // Send feedback to backend
+                sendFeedback(messageText, feedbackType);
+            }
+        });
+
+        // Send feedback function
+        async function sendFeedback(messageText, feedbackType) {
+            try {
+                await fetch('/.netlify/functions/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: messageText,
+                        feedback: feedbackType,
+                        timestamp: new Date().toISOString(),
+                        sessionId: sessionId,
+                        user: userInfo
+                    })
+                });
+                console.log('Feedback sent:', feedbackType);
+            } catch (error) {
+                console.error('Failed to send feedback:', error);
+            }
         }
     </script>
 </body>
