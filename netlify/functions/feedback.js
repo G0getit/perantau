@@ -8,30 +8,38 @@ exports.handler = async (event, context) => {
     try {
         const feedback = JSON.parse(event.body);
         
-        // Initialize Google Sheets
-        const sheets = google.sheets({ 
-            version: 'v4', 
-            auth: process.env.GOOGLE_SHEETS_API_KEY 
+        // Parse service account credentials
+        const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
+        
+        // Initialize auth
+        const auth = new google.auth.GoogleAuth({
+            credentials: serviceAccount,
+            scopes: ['https://www.googleapis.com/auth/spreadsheets']
         });
+        
+        const sheets = google.sheets({ version: 'v4', auth });
 
-        // Prepare row data
+        // Clean the message (remove feedback UI text)
+        const cleanMessage = feedback.message
+            .replace('Was this helpful?', '')
+            .replace('👍', '')
+            .replace('👎', '')
+            .trim();
+
         const row = [
-            new Date().toISOString(),      // Timestamp
-            feedback.user?.name || 'Anonymous',  // User name
-            feedback.user?.email || '',    // User email
-            feedback.sessionId,            // Session ID
-            feedback.message,              // AI response that was rated
-            feedback.feedback,             // helpful or not-helpful
+            new Date().toISOString(),
+            feedback.user?.name || 'Anonymous',
+            feedback.user?.email || '',
+            feedback.sessionId,
+            cleanMessage,
+            feedback.feedback,
         ];
 
-        // Append to Google Sheet
         await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEET_ID,
             range: `${process.env.FEEDBACK_SHEET_NAME}!A:F`,
             valueInputOption: 'RAW',
-            resource: {
-                values: [row]
-            }
+            resource: { values: [row] }
         });
 
         return {
