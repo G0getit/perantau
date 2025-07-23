@@ -828,11 +828,15 @@
         }
 
         // Add message to chat
+        // Add message to chat
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.textContent = text;
-    
+            
+            // Convert \n to <br> for proper line breaks and set as HTML
+            const formattedText = text.replace(/\n/g, '<br>');
+            messageDiv.innerHTML = formattedText;
+
             // Add feedback buttons for AI responses
             if (sender === 'ai') {
                 const feedbackDiv = document.createElement('div');
