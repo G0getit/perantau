@@ -580,10 +580,6 @@
                     <label class="form-label" for="userEmail">Email Address *</label>
                     <input type="email" id="userEmail" class="form-input" placeholder="Enter your email address" required>
                 </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="consentCheckbox" class="checkbox-input" required>
-                    <label for="consentCheckbox" class="checkbox-label">I consent to receiving an email from the team.</label>
-                </div>
                 <button type="submit" class="modal-button" id="submitUserInfo">Start Chatting</button>
             </form>
         </div>
@@ -683,10 +679,9 @@
             
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
-            const consent = document.getElementById('consentCheckbox').checked;
             
-            if (name && email && consent) {
-                userInfo = { name, email, consent };
+            if (name && email) {
+                userInfo = { name, email };
                 saveUserInfo(userInfo); // Save to localStorage
                 hideUserInfoModal();
                 chatInput.focus();
