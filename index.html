@@ -140,6 +140,29 @@
             color: #888;
         }
 
+        .form-textarea {
+            width: 100%;
+            background: #1a1a1a;
+            border: 2px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s ease;
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            border-color: #007AFF;
+        }
+
+        .form-textarea::placeholder {
+            color: #888;
+        }
+
         .checkbox-group {
             display: flex;
             align-items: flex-start;
@@ -172,6 +195,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            margin-bottom: 10px;
         }
 
         .modal-button:hover {
@@ -181,6 +205,27 @@
         .modal-button:disabled {
             background: #555;
             cursor: not-allowed;
+        }
+
+        .modal-button.secondary {
+            background: #555;
+            color: #ffffff;
+        }
+
+        .modal-button.secondary:hover {
+            background: #666;
+        }
+
+        /* Character Counter */
+        .character-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .character-counter.warning {
+            color: #ff6b35;
         }
 
         /* Disclaimer */
@@ -209,6 +254,32 @@
             color: #cccccc;
             font-size: 13px;
             line-height: 1.5;
+        }
+
+        /* Feedback Button */
+        .feedback-button {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .feedback-btn-main {
+            background: #3a3a3a;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: #ffffff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feedback-btn-main:hover {
+            background: #4a4a4a;
+            border-color: #007AFF;
         }
 
         .chat-interface.expanded {
@@ -459,6 +530,7 @@
                 font-size: 11px;
                 padding: 6px 10px;
             }
+
             .feedback-section {
                 margin-top: 10px;
                 padding-top: 10px;
@@ -552,6 +624,13 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Feedback Button -->
+                <div class="feedback-button">
+                    <button class="feedback-btn-main" id="feedbackButton">
+                        💬 Send Feedback
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -585,9 +664,35 @@
         </div>
     </div>
 
+    <!-- Feedback Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-content">
+            <div class="modal-title">💬 Send Us Your Feedback</div>
+            <div class="modal-subtitle">
+                Help us improve PERANTAU! Share your thoughts, suggestions, or report any issues you've encountered.
+            </div>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label class="form-label" for="feedbackText">Your Feedback *</label>
+                    <textarea 
+                        id="feedbackText" 
+                        class="form-textarea" 
+                        placeholder="Tell us what you think! What features would you like to see? What problems did you encounter? How can we make this better for Indonesian parents?"
+                        required
+                        maxlength="1000"
+                    ></textarea>
+                    <div class="character-counter" id="characterCounter">0/1000 characters</div>
+                </div>
+                <button type="submit" class="modal-button" id="submitFeedback">Send Feedback</button>
+                <button type="button" class="modal-button secondary" id="cancelFeedback">Cancel</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         // Configuration - Webhook URL (will be handled by Netlify function)
         const WEBHOOK_URL = '/.netlify/functions/chat';
+        const FEEDBACK_URL = '/.netlify/functions/feedback';
 
         // Security: Rate limiting
         let lastMessageTime = 0;
@@ -604,6 +709,12 @@
         const userInfoModal = document.getElementById('userInfoModal');
         const userInfoForm = document.getElementById('userInfoForm');
         const resetButton = document.getElementById('resetButton');
+        const feedbackButton = document.getElementById('feedbackButton');
+        const feedbackModal = document.getElementById('feedbackModal');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const feedbackText = document.getElementById('feedbackText');
+        const characterCounter = document.getElementById('characterCounter');
+        const cancelFeedback = document.getElementById('cancelFeedback');
 
         let isFirstMessage = true;
         let isThinking = false;
@@ -673,6 +784,34 @@
             userInfoModal.style.display = 'none';
         }
 
+        // Show feedback modal
+        function showFeedbackModal() {
+            feedbackModal.style.display = 'flex';
+            setTimeout(() => {
+                feedbackText.focus();
+            }, 100);
+        }
+
+        // Hide feedback modal
+        function hideFeedbackModal() {
+            feedbackModal.style.display = 'none';
+            feedbackText.value = '';
+            updateCharacterCounter();
+        }
+
+        // Update character counter
+        function updateCharacterCounter() {
+            const currentLength = feedbackText.value.length;
+            const maxLength = 1000;
+            characterCounter.textContent = `${currentLength}/${maxLength} characters`;
+            
+            if (currentLength > maxLength * 0.9) {
+                characterCounter.classList.add('warning');
+            } else {
+                characterCounter.classList.remove('warning');
+            }
+        }
+
         // Handle user info form submission
         userInfoForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -685,6 +824,71 @@
                 saveUserInfo(userInfo); // Save to localStorage
                 hideUserInfoModal();
                 chatInput.focus();
+            }
+        });
+
+        // Handle feedback form submission
+        feedbackForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const feedback = feedbackText.value.trim();
+            if (!feedback) return;
+
+            // Check if user info is available
+            if (!userInfo) {
+                alert('Please provide your contact information first by starting a chat.');
+                hideFeedbackModal();
+                showUserInfoModal();
+                return;
+            }
+
+            try {
+                // Disable form while submitting
+                document.getElementById('submitFeedback').disabled = true;
+                document.getElementById('submitFeedback').textContent = 'Sending...';
+
+                const response = await fetch(FEEDBACK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: feedback,
+                        feedback: 'detailed_feedback',
+                        timestamp: new Date().toISOString(),
+                        sessionId: sessionId,
+                        user: userInfo,
+                        type: 'user_feedback'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Thank you for your feedback! We appreciate your input.');
+                    hideFeedbackModal();
+                } else {
+                    throw new Error('Failed to send feedback');
+                }
+            } catch (error) {
+                console.error('Feedback submission error:', error);
+                alert('Sorry, there was an error sending your feedback. Please try again later.');
+            } finally {
+                // Re-enable form
+                document.getElementById('submitFeedback').disabled = false;
+                document.getElementById('submitFeedback').textContent = 'Send Feedback';
+            }
+        });
+
+        // Event listeners for feedback modal
+        feedbackButton.addEventListener('click', showFeedbackModal);
+        cancelFeedback.addEventListener('click', hideFeedbackModal);
+        feedbackText.addEventListener('input', updateCharacterCounter);
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target === feedbackModal) {
+                hideFeedbackModal();
+            }
+            if (e.target === userInfoModal) {
+                // Don't allow closing user info modal by clicking outside
+                // User must provide info to use the chat
             }
         });
 
@@ -823,7 +1027,6 @@
         }
 
         // Add message to chat
-        // Add message to chat
         function addMessage(text, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
@@ -898,7 +1101,8 @@
         if (!checkSavedUserInfo()) {
             showUserInfoModal();
         }
-        // Handle feedback button clicks
+
+        // Handle feedback button clicks (thumbs up/down)
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('feedback-btn')) {
                 const feedbackType = e.target.getAttribute('data-feedback');
@@ -912,14 +1116,14 @@
                 });
                 
                 // Send feedback to backend
-                sendFeedback(messageText, feedbackType);
+                sendQuickFeedback(messageText, feedbackType);
             }
         });
 
-        // Send feedback function
-        async function sendFeedback(messageText, feedbackType) {
+        // Send quick feedback function (for thumbs up/down)
+        async function sendQuickFeedback(messageText, feedbackType) {
             try {
-                await fetch('/.netlify/functions/feedback', {
+                await fetch(FEEDBACK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -927,14 +1131,18 @@
                         feedback: feedbackType,
                         timestamp: new Date().toISOString(),
                         sessionId: sessionId,
-                        user: userInfo
+                        user: userInfo,
+                        type: 'quick_feedback'
                     })
                 });
-                console.log('Feedback sent:', feedbackType);
+                console.log('Quick feedback sent:', feedbackType);
             } catch (error) {
-                console.error('Failed to send feedback:', error);
+                console.error('Failed to send quick feedback:', error);
             }
         }
+
+        // Initialize character counter
+        updateCharacterCounter();
     </script>
 </body>
 </html>
