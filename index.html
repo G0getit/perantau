@@ -11,36 +11,102 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #6a6a6a;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --accent-color: #007AFF;
+            --accent-hover: #0056CC;
+            --user-bubble: #007AFF;
+            --ai-bg: transparent;
+            --border-color: #3a3a3a;
+            --copy-btn-bg: #4a4a4a;
+            --copy-btn-hover: #5a5a5a;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-muted: #6c757d;
+            --accent-color: #0066cc;
+            --accent-hover: #0052a3;
+            --user-bubble: #0066cc;
+            --ai-bg: transparent;
+            --border-color: #dee2e6;
+            --copy-btn-bg: #e9ecef;
+            --copy-btn-hover: #dee2e6;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a1a;
-            color: #ffffff;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
 
         /* Top Navigation Bar */
         .top-nav {
             height: 60px;
-            background: #2a2a2a;
-            border-bottom: 1px solid #3a3a3a;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .hamburger-placeholder {
-            width: 24px;
-            height: 24px;
-            /* Future hamburger icon will go here */
+        .nav-left {
+            display: flex;
+            align-items: center;
         }
 
         .site-name {
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 18px;
             font-weight: 600;
             margin-left: 16px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--copy-btn-hover);
+        }
+
+        .theme-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
 
         /* Main Container */
@@ -48,319 +114,237 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
         }
 
         /* Chat Interface */
         .chat-interface {
-            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             transition: all 0.3s ease;
         }
 
-        .welcome-text {
+        .welcome-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             text-align: center;
+        }
+
+        .welcome-text {
             font-size: 32px;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-primary);
             margin-bottom: 40px;
             line-height: 1.3;
         }
 
-        /* User Info Modal */
-        .modal-overlay {
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
         }
 
-        .modal-content {
-            background: #2a2a2a;
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 450px;
-            width: 90%;
-            border: 1px solid #3a3a3a;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-subtitle {
-            color: #cccccc;
-            margin-bottom: 25px;
-            text-align: center;
-            line-height: 1.4;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
+        .chat-messages.visible {
             display: block;
-            color: #ffffff;
-            margin-bottom: 8px;
-            font-weight: 500;
         }
 
-        .form-input {
+        .message-group {
+            margin-bottom: 24px;
             width: 100%;
-            background: #1a1a1a;
-            border: 2px solid #3a3a3a;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #ffffff;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.2s ease;
         }
 
-        .form-input:focus {
-            border-color: #007AFF;
-        }
-
-        .form-input::placeholder {
-            color: #888;
-        }
-
-        .form-textarea {
-            width: 100%;
-            background: #1a1a1a;
-            border: 2px solid #3a3a3a;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: #ffffff;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.2s ease;
-            resize: vertical;
-            min-height: 120px;
-            font-family: inherit;
-        }
-
-        .form-textarea:focus {
-            border-color: #007AFF;
-        }
-
-        .form-textarea::placeholder {
-            color: #888;
-        }
-
-        .checkbox-group {
+        /* User Messages */
+        .user-message {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 25px;
+            justify-content: flex-end;
+            margin-bottom: 16px;
         }
 
-        .checkbox-input {
-            margin-top: 2px;
-            width: 18px;
-            height: 18px;
-            accent-color: #007AFF;
-        }
-
-        .checkbox-label {
-            color: #cccccc;
-            font-size: 14px;
-            line-height: 1.4;
-            cursor: pointer;
-        }
-
-        .modal-button {
-            width: 100%;
-            background: #007AFF;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
+        .user-bubble {
+            background: var(--user-bubble);
             color: white;
+            padding: 12px 18px;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 70%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        /* AI Messages */
+        .ai-message {
+            background: var(--ai-bg);
+            color: var(--text-primary);
+            padding: 20px 0;
+            width: 100%;
+            position: relative;
+        }
+
+        .ai-content {
+            line-height: 1.6;
             font-size: 16px;
+        }
+
+        /* AI Response Formatting */
+        .ai-content h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 24px 0 16px 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .ai-content h1:first-child {
+            margin-top: 0;
+        }
+
+        .ai-content h2 {
+            font-size: 20px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            margin-bottom: 10px;
+            color: var(--text-primary);
+            margin: 20px 0 12px 0;
         }
 
-        .modal-button:hover {
-            background: #0056CC;
+        .ai-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 16px 0 8px 0;
         }
 
-        .modal-button:disabled {
-            background: #555;
-            cursor: not-allowed;
+        .ai-content p {
+            margin: 12px 0;
+            color: var(--text-primary);
         }
 
-        .modal-button.secondary {
-            background: #555;
-            color: #ffffff;
+        .ai-content ul, .ai-content ol {
+            margin: 12px 0;
+            padding-left: 24px;
         }
 
-        .modal-button.secondary:hover {
-            background: #666;
+        .ai-content li {
+            margin: 6px 0;
+            color: var(--text-primary);
         }
 
-        /* Character Counter */
-        .character-counter {
-            text-align: right;
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
+        .ai-content blockquote {
+            border-left: 4px solid var(--accent-color);
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            font-style: italic;
         }
 
-        .character-counter.warning {
-            color: #ff6b35;
-        }
-
-        /* Disclaimer */
-        .disclaimer {
-            margin-top: 20px;
-            padding: 16px;
-            background: transparent;
-            border: 1px solid #555;
-            border-radius: 8px;
-        }
-
-        .disclaimer-content {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .disclaimer-icon {
-            color: #007AFF;
-            font-size: 16px;
-            margin-top: 1px;
-            flex-shrink: 0;
-        }
-
-        .disclaimer-text {
-            color: #cccccc;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        /* Feedback Button */
-        .feedback-button {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .feedback-btn-main {
-            background: #3a3a3a;
-            border: 1px solid #555;
-            border-radius: 8px;
-            padding: 10px 20px;
-            color: #ffffff;
+        .ai-content code {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
             font-size: 14px;
+        }
+
+        .ai-content a {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .ai-content a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Copy Button */
+        .copy-button {
+            background: var(--copy-btn-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 4px 6px;
             cursor: pointer;
+            font-size: 12px;
+            color: var(--text-secondary);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
+            margin-top: 8px;
+            margin-left: auto;
+            width: fit-content;
+            opacity: 0;
         }
 
-        .feedback-btn-main:hover {
-            background: #4a4a4a;
-            border-color: #007AFF;
+        .message-group:hover .copy-button {
+            opacity: 1;
         }
 
-        .chat-interface.expanded {
-            height: 70vh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+        .copy-button:hover {
+            background: var(--copy-btn-hover);
+            color: var(--text-primary);
         }
 
-        /* Reset Button - positioned outside chat window */
-        .reset-button {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            background: #555;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: #ffffff;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            display: none;
-        }
-
-        .reset-button.visible {
-            display: block;
-        }
-
-        .reset-button:hover {
-            background: #666;
-        }
-
-        /* Chat Window (hidden initially) */
-        .chat-window {
-            display: none;
-            flex: 1;
-            background: #2a2a2a;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            padding: 20px;
-            overflow-y: auto;
-            border: 1px solid #3a3a3a;
-            position: relative;
-        }
-
-        .chat-window.visible {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .message {
-            margin-bottom: 16px;
-            max-width: 80%;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: #007AFF;
+        .copy-button.copied {
+            background: var(--accent-color);
             color: white;
-            padding: 12px 16px;
-            border-radius: 18px 18px 4px 18px;
         }
 
-        .message.ai {
-            align-self: flex-start;
-            background: #3a3a3a;
-            color: #ffffff;
-            padding: 12px 16px;
-            border-radius: 18px 18px 18px 4px;
-            line-height: 1.5;
+        /* Feedback Buttons */
+        .feedback-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .message-group:hover .feedback-buttons {
+            opacity: 1;
+        }
+
+        .feedback-btn {
+            background: var(--copy-btn-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 4px 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .feedback-btn:hover {
+            background: var(--copy-btn-hover);
+            color: var(--text-primary);
+        }
+
+        .feedback-btn.selected {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Thinking Animation */
+        .thinking-message {
+            background: var(--ai-bg);
+            padding: 20px 0;
+            width: 100%;
         }
 
         .thinking-bubble {
-            align-self: flex-start;
-            background: #3a3a3a;
-            padding: 12px 16px;
-            border-radius: 18px 18px 18px 4px;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text-secondary);
         }
 
         .thinking-dots {
@@ -371,7 +355,7 @@
         .thinking-dots span {
             width: 6px;
             height: 6px;
-            background: #999;
+            background: var(--text-muted);
             border-radius: 50%;
             animation: thinking 1.4s infinite ease-in-out;
         }
@@ -384,22 +368,32 @@
             40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Chat Input Area */
-        .chat-input-area {
-            width: 100%;
+        /* Chat Input Area - Fixed at bottom */
+        .chat-input-container {
+            position: sticky;
+            bottom: 0;
+            background: var(--bg-primary);
+            padding: 20px;
+            z-index: 50;
+        }
+
+        .input-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .input-container {
             display: flex;
-            background: #2a2a2a;
+            background: var(--bg-secondary);
             border-radius: 24px;
             padding: 4px;
-            border: 2px solid #3a3a3a;
+            border: 2px solid var(--border-color);
             transition: border-color 0.2s ease;
+            margin-bottom: 16px;
         }
 
         .input-container:focus-within {
-            border-color: #007AFF;
+            border-color: var(--accent-color);
         }
 
         .chat-input {
@@ -407,8 +401,9 @@
             background: transparent;
             border: none;
             padding: 16px 20px;
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             outline: none;
             resize: none;
             min-height: 24px;
@@ -416,11 +411,11 @@
         }
 
         .chat-input::placeholder {
-            color: #888;
+            color: var(--text-muted);
         }
 
         .send-button {
-            background: #007AFF;
+            background: var(--accent-color);
             border: none;
             border-radius: 20px;
             width: 40px;
@@ -434,11 +429,11 @@
         }
 
         .send-button:hover {
-            background: #0056CC;
+            background: var(--accent-hover);
         }
 
         .send-button:disabled {
-            background: #555;
+            background: var(--text-muted);
             cursor: not-allowed;
         }
 
@@ -453,8 +448,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            margin-top: 20px;
             justify-content: center;
+            margin-bottom: 10px; /* Reduced gap */
         }
 
         .template-buttons.hidden {
@@ -462,9 +457,9 @@
         }
 
         .template-btn {
-            background: #3a3a3a;
-            border: 1px solid #4a4a4a;
-            color: #ffffff;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             padding: 12px 20px;
             border-radius: 12px;
             cursor: pointer;
@@ -473,42 +468,285 @@
         }
 
         .template-btn:hover {
-            background: #4a4a4a;
-            border-color: #007AFF;
+            background: var(--copy-btn-hover);
+            border-color: var(--accent-color);
         }
 
-        /* Future Articles Section */
-        .articles-section {
-            display: none; /* Will be shown in future updates */
-            width: 100%;
-            margin-top: 40px;
-        }
-
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .article-card {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.2s ease;
+        /* Reset Button */
+        .reset-button {
+            background: var(--copy-btn-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            font-size: 12px;
             cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative; /* Add this */
         }
 
-        .article-card:hover {
-            border-color: #007AFF;
-            transform: translateY(-2px);
+        /* Add this new tooltip style */
+        .reset-button:hover:after {
+            content: "New Session";
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .reset-button:hover {
+            background: var(--copy-btn-hover);
+            color: var(--text-primary);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            padding: 12px 0;
+            background: transparent;
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .disclaimer-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .disclaimer-icon {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-muted);
+        }
+
+        .disclaimer-text {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Feedback Button */
+        .feedback-button {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .feedback-btn-main {
+            background: #2a2a2a;
+            border: 1px solid #4a4a4a;
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        [data-theme="light"] .feedback-btn-main {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+        .feedback-btn-main:hover {
+            background: #3a3a3a;
+            border-color: #555;
+        }
+
+        [data-theme="light"] .feedback-btn-main:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--accent-color);
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .modal-button {
+            width: 100%;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-bottom: 10px;
+        }
+
+        .modal-button:hover {
+            background: var(--accent-hover);
+        }
+
+        .modal-button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .modal-button.secondary {
+            background: var(--copy-btn-bg);
+            color: var(--text-primary);
+        }
+
+        .modal-button.secondary:hover {
+            background: var(--copy-btn-hover);
+        }
+
+        /* Character Counter */
+        .character-counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .character-counter.warning {
+            color: #ff6b35;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-input {
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+        }
+
+        .checkbox-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .main-container {
-                padding: 10px;
+            .top-nav {
+                padding: 0 15px;
+            }
+
+            .site-name {
+                font-size: 16px;
+            }
+
+            .welcome-text {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+
+            .chat-messages {
+                padding: 15px;
+            }
+
+            .chat-input-container {
+                padding: 15px;
+            }
+
+            .user-bubble {
+                max-width: 85%;
+            }
+
+            .ai-content h1 {
+                font-size: 20px;
+            }
+
+            .ai-content h2 {
+                font-size: 18px;
             }
 
             .template-buttons {
@@ -520,82 +758,53 @@
                 width: 100%;
                 max-width: 300px;
             }
-
-            .chat-interface.expanded {
-                height: 80vh;
-            }
-
-            .reset-button {
-                top: -45px;
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-
-            .feedback-section {
-                margin-top: 10px;
-                padding-top: 10px;
-                border-top: 1px solid #4a4a4a;
-            }
-
-            .feedback-question {
-                font-size: 12px;
-                color: #999;
-                margin-bottom: 8px;
-            }
-
-            .feedback-buttons {
-                display: flex;
-                gap: 8px;
-            }
-
-            .feedback-btn {
-                background: transparent;
-                border: 1px solid #555;
-                border-radius: 16px;
-                padding: 4px 8px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: all 0.2s ease;
-            }
-
-            .feedback-btn:hover {
-                border-color: #ff6b35;
-            }
-
-            .feedback-btn.selected {
-                background: #ff6b35;
-                border-color: #ff6b35;
-            }
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <!-- Top Navigation Bar -->
     <nav class="top-nav">
-        <div class="hamburger-placeholder">
-            <!-- Future hamburger menu icon will go here -->
+        <div class="nav-left">
+            <div class="site-name">PERANTAU CONNECT</div>
         </div>
-        <div class="site-name">PERANTAU</div>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle">
+                <svg class="theme-icon" id="themeIcon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+                </svg>
+            </button>
+            <button class="reset-button" id="resetButton">
+                <svg class="theme-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <!-- Main Container -->
     <div class="main-container">
         <div class="chat-interface" id="chatInterface">
-            <!-- Reset Button (positioned outside chat window) -->
-            <button class="reset-button" id="resetButton">🔄 New Session</button>
-
-            <!-- Welcome Text -->
-            <div class="welcome-text" id="welcomeText">
-                Hi, Parents! Tanyakan pertanyaan seputar studi anak Anda di Kanada.
+            <!-- Welcome Section -->
+            <div class="welcome-section" id="welcomeSection">
+                <div class="welcome-text">
+                    Hello! Ask anything about studying or living in Canada.
+                </div>
             </div>
 
-            <!-- Chat Window (hidden initially) -->
-            <div class="chat-window" id="chatWindow">
-                <div id="messagesContainer" style="flex: 1; display: flex; flex-direction: column;"></div>
+            <!-- Chat Messages Area -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be dynamically added here -->
             </div>
+        </div>
 
-            <!-- Chat Input Area -->
-            <div class="chat-input-area">
+        <!-- Chat Input Area - Fixed at bottom -->
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <!-- Template Buttons -->
+                <div class="template-buttons" id="templateButtons">
+                    <!-- Template buttons will be populated by JavaScript -->
+                </div>
+
                 <div class="input-container">
                     <textarea 
                         class="chat-input" 
@@ -610,17 +819,13 @@
                     </button>
                 </div>
 
-                <!-- Template Buttons -->
-                <div class="template-buttons" id="templateButtons">
-                    <!-- Template buttons will be populated by JavaScript -->
-                </div>
-
-                <!-- Disclaimer -->
                 <div class="disclaimer">
                     <div class="disclaimer-content">
-                        <div class="disclaimer-icon">⚠️</div>
+                        <svg class="disclaimer-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm1,15H11V11h2Zm0-8H11V7h2Z"/>
+                        </svg>
                         <div class="disclaimer-text">
-                            <strong>BETA NOTICE:</strong> This chatbot is being tested and improved. Some answers may be incomplete or inaccurate. Please verify important information with official sources. <strong>Do not include any sensitive or private information.</strong>
+                            <strong>NOTE:</strong> This chat bot returns answers based on information shared by other Indonesian parents who have sent their kids to study in Canada. Where applicable, links to reliable sources will be provided for your further research.
                         </div>
                     </div>
                 </div>
@@ -633,22 +838,14 @@
                 </div>
             </div>
         </div>
-
-        <!-- Future Articles Section -->
-        <div class="articles-section" id="articlesSection">
-            <h2>Popular Articles</h2>
-            <div class="articles-grid" id="articlesGrid">
-                <!-- Future article cards will go here -->
-            </div>
-        </div>
     </div>
 
     <!-- User Info Modal -->
     <div class="modal-overlay" id="userInfoModal">
         <div class="modal-content">
-            <div class="modal-title">Welcome to PERANTAU!</div>
+            <div class="modal-title">Welcome to PERANTAU CONNECT!</div>
             <div class="modal-subtitle">
-                🧪 BETA VERSION -- You're testing an early version of PERANTAU. Expect some inaccurate answers as we improve. Your feedback helps us get better!
+                Bridging the information gap for Indonesian parents. Get relevant answers based on our community discussions and legitimate sources.
             </div>
             <form id="userInfoForm">
                 <div class="form-group">
@@ -669,7 +866,7 @@
         <div class="modal-content">
             <div class="modal-title">💬 Send Us Your Feedback</div>
             <div class="modal-subtitle">
-                Help us improve PERANTAU! Share your thoughts, suggestions, or report any issues you've encountered.
+                Help us improve PERANTAU CONNECT! Share your thoughts, suggestions, or report any issues you've encountered.
             </div>
             <form id="feedbackForm">
                 <div class="form-group">
@@ -690,22 +887,21 @@
     </div>
 
     <script>
-        // Configuration - Webhook URL (will be handled by Netlify function)
+        // Configuration
         const WEBHOOK_URL = '/.netlify/functions/chat';
         const FEEDBACK_URL = '/.netlify/functions/feedback';
 
-        // Security: Rate limiting
+        // Rate limiting
         let lastMessageTime = 0;
-        const MESSAGE_COOLDOWN = 2000; // 2 seconds between messages
+        const MESSAGE_COOLDOWN = 2000;
 
         // DOM Elements
         const chatInterface = document.getElementById('chatInterface');
-        const chatWindow = document.getElementById('chatWindow');
-        const messagesContainer = document.getElementById('messagesContainer');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
         const templateButtons = document.getElementById('templateButtons');
-        const welcomeText = document.getElementById('welcomeText');
         const userInfoModal = document.getElementById('userInfoModal');
         const userInfoForm = document.getElementById('userInfoForm');
         const resetButton = document.getElementById('resetButton');
@@ -715,6 +911,8 @@
         const feedbackText = document.getElementById('feedbackText');
         const characterCounter = document.getElementById('characterCounter');
         const cancelFeedback = document.getElementById('cancelFeedback');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
 
         let isFirstMessage = true;
         let isThinking = false;
@@ -726,8 +924,30 @@
             return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        // Initialize session ID on page load
         sessionId = generateSessionId();
+
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const sunIcon = `<path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/>`;
+            const moonIcon = `<path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>`;
+            
+            themeIcon.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
+        }
 
         // Local storage functions
         function saveUserInfo(info) {
@@ -750,7 +970,6 @@
                 userInfo = savedUserInfo;
                 document.getElementById('userName').value = userInfo.name;
                 document.getElementById('userEmail').value = userInfo.email;
-                // Don't show modal if user info is already saved
                 return true;
             }
             return false;
@@ -759,19 +978,17 @@
         // Reset session function
         function resetSession() {
             sessionId = generateSessionId();
-            messagesContainer.innerHTML = '';
-            chatInterface.classList.remove('expanded');
-            chatWindow.classList.remove('visible');
+            chatMessages.innerHTML = '';
+            chatMessages.classList.remove('visible');
+            welcomeSection.style.display = 'flex';
             templateButtons.classList.remove('hidden');
-            welcomeText.style.display = 'block';
-            resetButton.classList.remove('visible');
             isFirstMessage = true;
             chatInput.value = '';
             chatInput.style.height = 'auto';
             console.log('New session started:', sessionId);
         }
 
-        // Show user info modal
+        // Show/Hide modals
         function showUserInfoModal() {
             userInfoModal.style.display = 'flex';
             setTimeout(() => {
@@ -779,12 +996,10 @@
             }, 100);
         }
 
-        // Hide user info modal
         function hideUserInfoModal() {
             userInfoModal.style.display = 'none';
         }
 
-        // Show feedback modal
         function showFeedbackModal() {
             feedbackModal.style.display = 'flex';
             setTimeout(() => {
@@ -792,7 +1007,6 @@
             }, 100);
         }
 
-        // Hide feedback modal
         function hideFeedbackModal() {
             feedbackModal.style.display = 'none';
             feedbackText.value = '';
@@ -812,6 +1026,308 @@
             }
         }
 
+        // Copy functionality
+        async function copyToClipboard(text, button) {
+            try {
+                await navigator.clipboard.writeText(text);
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Copied';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Copied';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }
+        }
+
+        // Format AI response with markdown-like formatting
+        function formatAIResponse(text) {
+            // Convert markdown-style headers to HTML
+            text = text.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+            text = text.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            text = text.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            
+            // Convert bold text
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert italic text
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Convert bullet points
+            text = text.replace(/^- (.*$)/gm, '<li>$1</li>');
+            text = text.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            
+            // Convert numbered lists
+            text = text.replace(/^\d+\. (.*$)/gm, '<li>$1</li>');
+            
+            // Convert URLs to clickable links
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            text = text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
+            
+            // Convert line breaks
+            text = text.replace(/\n\n/g, '</p><p>');
+            text = text.replace(/\n/g, '<br>');
+            
+            // Wrap in paragraphs if not already structured
+            if (!text.includes('<h1>') && !text.includes('<h2>') && !text.includes('<ul>') && !text.includes('<ol>')) {
+                text = '<p>' + text + '</p>';
+            }
+            
+            return text;
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageGroup = document.createElement('div');
+            messageGroup.className = 'message-group';
+            
+            if (sender === 'user') {
+                messageGroup.innerHTML = `
+                    <div class="user-message">
+                        <div class="user-bubble">${text}</div>
+                    </div>
+                    <button class="copy-button" onclick="copyToClipboard('${text.replace(/'/g, "\\'")}', this)">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                        Copy
+                    </button>
+                `;
+            } else {
+                const formattedText = formatAIResponse(text);
+                const plainText = text.replace(/[#*\-\d\.]/g, '').trim();
+                
+                messageGroup.innerHTML = `
+                    <div class="ai-message">
+                        <div class="ai-content">${formattedText}</div>
+                    </div>
+                    <div class="feedback-buttons">
+                        <button class="feedback-btn thumbs-up" data-feedback="helpful" onclick="sendQuickFeedback(\`${plainText.replace(/`/g, '\\`')}\`, 'helpful', this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+                            </svg>
+                            Helpful
+                        </button>
+                        <button class="feedback-btn thumbs-down" data-feedback="not-helpful" onclick="sendQuickFeedback(\`${plainText.replace(/`/g, '\\`')}\`, 'not-helpful', this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
+                            </svg>
+                            Not helpful
+                        </button>
+                        <button class="copy-button" onclick="copyToClipboard(\`${plainText.replace(/`/g, '\\`')}\`, this)">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageGroup);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show thinking animation
+        function showThinking() {
+            isThinking = true;
+            sendButton.disabled = true;
+            
+            const thinkingGroup = document.createElement('div');
+            thinkingGroup.className = 'message-group';
+            thinkingGroup.id = 'thinkingGroup';
+            thinkingGroup.innerHTML = `
+                <div class="thinking-message">
+                    <div class="thinking-bubble">
+                        <span>Thinking</span>
+                        <div class="thinking-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(thinkingGroup);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Hide thinking animation
+        function hideThinking() {
+            isThinking = false;
+            sendButton.disabled = false;
+            
+            const thinkingGroup = document.getElementById('thinkingGroup');
+            if (thinkingGroup) {
+                thinkingGroup.remove();
+            }
+        }
+
+        // Send message function
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || isThinking) return;
+
+            // Rate limiting check
+            const currentTime = Date.now();
+            if (currentTime - lastMessageTime < MESSAGE_COOLDOWN) {
+                const remainingTime = Math.ceil((MESSAGE_COOLDOWN - (currentTime - lastMessageTime)) / 1000);
+                addMessage(`Please wait ${remainingTime} more second(s) before sending another message.`, 'ai');
+                return;
+            }
+            lastMessageTime = currentTime;
+
+            // Check if user info is collected
+            if (!userInfo) {
+                showUserInfoModal();
+                return;
+            }
+
+            // Show chat messages area and hide template buttons on first message
+            if (isFirstMessage) {
+                welcomeSection.style.display = 'none';
+                chatMessages.classList.add('visible');
+                templateButtons.classList.add('hidden');
+                isFirstMessage = false;
+            }
+
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+
+            // Show thinking bubble
+            showThinking();
+
+            try {
+                console.log('Sending to backend API...');
+
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        timestamp: new Date().toISOString(),
+                        user: userInfo,
+                        sessionId: sessionId
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                hideThinking();
+                addMessage(data.response || data.message || 'I received your message and I\'m processing it.', 'ai');
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideThinking();
+                
+                if (error.message.includes('404')) {
+                    addMessage('Backend API not set up yet. You need to create a Netlify Function at /netlify/functions/chat.js to handle the webhook securely.', 'ai');
+                } else {
+                    addMessage('Sorry, I\'m having trouble connecting right now. Please try again in a moment.', 'ai');
+                }
+            }
+        }
+
+        // Template button sets
+        const templateSets = [
+            [
+                { text: "Bagaimana jika PGWP saya ditolak?", message: "Bagaimana jika PGWP saya ditolak?" },
+                { text: "Apa itu SKCK?", message: "Apa itu SKCK?" },
+                { text: "Bagaimanakah cara apply Permanent Residency?", message: "Bagaimanakah cara apply Permanent Residency?" },
+                { text: "Bagaimanakah cara memperpanjang study permit?", message: "Bagaimanakah cara memperpanjang study permit?" },
+                { text: "Apakah bisa bekerja sambil kuliah di Kanada?", message: "Apakah bisa bekerja sambil kuliah di Kanada?" }
+            ],
+            [
+                { text: "Apa bedanya immigration lawyer dan immigration consultant?", message: "Apa bedanya immigration lawyer dan immigration consultant?" },
+                { text: "Apa saja dokumen untuk super visa orang tua?", message: "Apa saja dokumen untuk super visa orang tua?" },
+                { text: "Jenis investasi apa saja yang ada di Kanada?", message: "Jenis investasi apa saja yang ada di Kanada?" },
+                { text: "Apa itu LMIA?", message: "Apa itu LMIA?" },
+                { text: "Bagaimana cara membaca paystub?", message: "Bagaimana cara membaca paystub?" }
+            ]
+        ];
+
+        // Initialize template buttons
+        function initializeTemplateButtons() {
+            const templateButtonsContainer = document.getElementById('templateButtons');
+            if (!templateButtonsContainer) {
+                console.error('Template buttons container not found');
+                return;
+            }
+
+            const randomSet = templateSets[Math.floor(Math.random() * templateSets.length)];
+            
+            templateButtonsContainer.innerHTML = '';
+            randomSet.forEach(template => {
+                const button = document.createElement('button');
+                button.className = 'template-btn';
+                button.setAttribute('data-message', template.message);
+                button.textContent = template.text;
+                templateButtonsContainer.appendChild(button);
+            });
+
+            // Add event listeners to new buttons
+            document.querySelectorAll('.template-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const message = this.getAttribute('data-message');
+                    chatInput.value = message;
+                    
+                    if (!userInfo) {
+                        showUserInfoModal();
+                    } else {
+                        chatInput.focus();
+                    }
+                });
+            });
+        }
+
+        // Auto-resize textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        resetButton.addEventListener('click', resetSession);
+        themeToggle.addEventListener('click', toggleTheme);
+        feedbackButton.addEventListener('click', showFeedbackModal);
+        cancelFeedback.addEventListener('click', hideFeedbackModal);
+        feedbackText.addEventListener('input', updateCharacterCounter);
+
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
         // Handle user info form submission
         userInfoForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -821,7 +1337,7 @@
             
             if (name && email) {
                 userInfo = { name, email };
-                saveUserInfo(userInfo); // Save to localStorage
+                saveUserInfo(userInfo);
                 hideUserInfoModal();
                 chatInput.focus();
             }
@@ -834,7 +1350,6 @@
             const feedback = feedbackText.value.trim();
             if (!feedback) return;
 
-            // Check if user info is available
             if (!userInfo) {
                 alert('Please provide your contact information first by starting a chat.');
                 hideFeedbackModal();
@@ -843,7 +1358,6 @@
             }
 
             try {
-                // Disable form while submitting
                 document.getElementById('submitFeedback').disabled = true;
                 document.getElementById('submitFeedback').textContent = 'Sending...';
 
@@ -870,258 +1384,26 @@
                 console.error('Feedback submission error:', error);
                 alert('Sorry, there was an error sending your feedback. Please try again later.');
             } finally {
-                // Re-enable form
                 document.getElementById('submitFeedback').disabled = false;
                 document.getElementById('submitFeedback').textContent = 'Send Feedback';
             }
         });
-
-        // Event listeners for feedback modal
-        feedbackButton.addEventListener('click', showFeedbackModal);
-        cancelFeedback.addEventListener('click', hideFeedbackModal);
-        feedbackText.addEventListener('input', updateCharacterCounter);
 
         // Close modals when clicking outside
         document.addEventListener('click', function(e) {
             if (e.target === feedbackModal) {
                 hideFeedbackModal();
             }
-            if (e.target === userInfoModal) {
-                // Don't allow closing user info modal by clicking outside
-                // User must provide info to use the chat
-            }
         });
 
-        // Reset button event listener
-        resetButton.addEventListener('click', resetSession);
-
-        // Template button sets (randomly choose one set on page load)
-        const templateSets = [
-            [
-                { text: "Bagaimana jika PGWP saya ditolak?", message: "Bagaimana jika PGWP saya ditolak?" },
-                { text: "Apa itu SKCK?", message: "Apa itu SKCK?" },
-                { text: "Bagaimanakah cara apply Permanent Residency?", message: "Bagaimanakah cara apply Permanent Residency?" },
-                { text: "Bagaimanakah cara memperpanjang study permit?", message: "Bagaimanakah cara memperpanjang study permit?" },
-                { text: "Apakah bisa bekerja sambil kuliah di Kanada?", message: "Apakah bisa bekerja sambil kuliah di Kanada?" }
-            ],
-            [
-                { text: "Apa bedanya immigration lawyer dan immigration consultant?", message: "Apa bedanya immigration lawyer dan immigration consultant?" },
-                { text: "Apa saja dokumen untuk super visa orang tua?", message: "Apa saja dokumen untuk super visa orang tua?" },
-                { text: "Jenis investasi apa saja yang ada di Kanada?", message: "Jenis investasi apa saja yang ada di Kanada?" },
-                { text: "Apa itu LMIA?", message: "Apa itu LMIA?" },
-                { text: "Bagaimana cara membaca paystub?", message: "Bagaimana cara membaca paystub?" }
-            ]
-        ];
-
-        // Initialize template buttons
-        function initializeTemplateButtons() {
-            const randomSet = templateSets[Math.floor(Math.random() * templateSets.length)];
-            
-            templateButtons.innerHTML = '';
-            randomSet.forEach(template => {
-                const button = document.createElement('button');
-                button.className = 'template-btn';
-                button.setAttribute('data-message', template.message);
-                button.textContent = template.text;
-                templateButtons.appendChild(button);
+        // Quick feedback function
+        async function sendQuickFeedback(messageText, feedbackType, button) {
+            // Mark button as selected
+            button.classList.add('selected');
+            button.parentNode.querySelectorAll('.feedback-btn').forEach(btn => {
+                if (btn !== button) btn.disabled = true;
             });
-
-            // Add event listeners to new buttons
-            document.querySelectorAll('.template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const message = this.getAttribute('data-message');
-                    chatInput.value = message;
-                    
-                    // Check if user info is needed
-                    if (!userInfo) {
-                        showUserInfoModal();
-                    } else {
-                        chatInput.focus();
-                    }
-                });
-            });
-        }
-
-        // Auto-resize textarea
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
-
-        // Send message function
-        async function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message || isThinking) return;
-
-            // Rate limiting check
-            const currentTime = Date.now();
-            if (currentTime - lastMessageTime < MESSAGE_COOLDOWN) {
-                const remainingTime = Math.ceil((MESSAGE_COOLDOWN - (currentTime - lastMessageTime)) / 1000);
-                addMessage(`Please wait ${remainingTime} more second(s) before sending another message.`, 'ai');
-                return;
-            }
-            lastMessageTime = currentTime;
-
-            // Check if user info is collected
-            if (!userInfo) {
-                showUserInfoModal();
-                return;
-            }
-
-            // Show chat window on first message
-            if (isFirstMessage) {
-                chatInterface.classList.add('expanded');
-                chatWindow.classList.add('visible');
-                templateButtons.classList.add('hidden');
-                welcomeText.style.display = 'none';
-                resetButton.classList.add('visible');
-                isFirstMessage = false;
-            }
-
-            // Add user message
-            addMessage(message, 'user');
-            chatInput.value = '';
-            chatInput.style.height = 'auto';
-
-            // Show thinking bubble immediately
-            showThinking();
-
-            try {
-                console.log('Sending to backend API...');
-
-                // Send to backend API (which will handle the n8n webhook)
-                const response = await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        timestamp: new Date().toISOString(),
-                        user: userInfo,
-                        sessionId: sessionId
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                
-                // Remove thinking bubble and add AI response
-                hideThinking();
-                addMessage(data.response || data.message || 'I received your message and I\'m processing it.', 'ai');
-
-            } catch (error) {
-                console.error('Error:', error);
-                hideThinking();
-                
-                // For development: Show a helpful message
-                if (error.message.includes('404')) {
-                    addMessage('Backend API not set up yet. You need to create a Netlify Function at /netlify/functions/chat.js to handle the webhook securely.', 'ai');
-                } else {
-                    addMessage('Sorry, I\'m having trouble connecting right now. Please try again in a moment.', 'ai');
-                }
-            }
-        }
-
-        // Add message to chat
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
             
-            // Convert \n to <br> for proper line breaks and set as HTML
-            const formattedText = text.replace(/\n/g, '<br>');
-            messageDiv.innerHTML = formattedText;
-
-            // Add feedback buttons for AI responses
-            if (sender === 'ai') {
-                const feedbackDiv = document.createElement('div');
-                feedbackDiv.className = 'feedback-section';
-                feedbackDiv.innerHTML = `
-                    <div class="feedback-question">Was this helpful?</div>
-                    <div class="feedback-buttons">
-                        <button class="feedback-btn thumbs-up" data-feedback="helpful">👍</button>
-                        <button class="feedback-btn thumbs-down" data-feedback="not-helpful">👎</button>
-                    </div>
-                `;
-                messageDiv.appendChild(feedbackDiv);
-            }
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Show thinking animation
-        function showThinking() {
-            isThinking = true;
-            sendButton.disabled = true;
-            
-            const thinkingDiv = document.createElement('div');
-            thinkingDiv.className = 'thinking-bubble';
-            thinkingDiv.id = 'thinkingBubble';
-            thinkingDiv.innerHTML = `
-                <span>Thinking</span>
-                <div class="thinking-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            `;
-            messagesContainer.appendChild(thinkingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // Hide thinking animation
-        function hideThinking() {
-            isThinking = false;
-            sendButton.disabled = false;
-            
-            const thinkingBubble = document.getElementById('thinkingBubble');
-            if (thinkingBubble) {
-                thinkingBubble.remove();
-            }
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // Initialize on page load
-        initializeTemplateButtons();
-        
-        // Check for saved user info, if not found, show modal
-        if (!checkSavedUserInfo()) {
-            showUserInfoModal();
-        }
-
-        // Handle feedback button clicks (thumbs up/down)
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('feedback-btn')) {
-                const feedbackType = e.target.getAttribute('data-feedback');
-                const messageElement = e.target.closest('.message');
-                const messageText = messageElement.textContent.replace('Was this helpful?👍👎', '').trim();
-                
-                // Mark button as selected
-                e.target.classList.add('selected');
-                e.target.parentNode.querySelectorAll('.feedback-btn').forEach(btn => {
-                    if (btn !== e.target) btn.disabled = true;
-                });
-                
-                // Send feedback to backend
-                sendQuickFeedback(messageText, feedbackType);
-            }
-        });
-
-        // Send quick feedback function (for thumbs up/down)
-        async function sendQuickFeedback(messageText, feedbackType) {
             try {
                 await fetch(FEEDBACK_URL, {
                     method: 'POST',
@@ -1141,8 +1423,17 @@
             }
         }
 
-        // Initialize character counter
-        updateCharacterCounter();
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeTemplateButtons();
+            updateCharacterCounter();
+            
+            // Check for saved user info, if not found, show modal
+            if (!checkSavedUserInfo()) {
+                showUserInfoModal();
+            }
+        });
     </script>
 </body>
 </html>
