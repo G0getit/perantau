@@ -150,7 +150,7 @@
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 10px;
             display: none;
         }
 
@@ -310,8 +310,8 @@
         }
 
         .feedback-btn {
-            background: var(--copy-btn-bg);
-            border: 1px solid var(--border-color);
+            background: transparent; /* Changed from var(--copy-btn-bg) */
+            border: 0px solid var(--border-color);
             border-radius: 6px;
             padding: 4px 6px;
             cursor: pointer;
@@ -492,9 +492,9 @@
         .reset-button:hover:after {
             content: "New Session";
             position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 45px; /* Changed from -35px to put it below */
+            right: 0; /* Changed from left: 50% to align with right edge */
+            transform: none; /* Remove the centering transform */
             background: var(--bg-tertiary);
             color: var(--text-primary);
             padding: 6px 10px;
@@ -730,11 +730,11 @@
             }
 
             .chat-messages {
-                padding: 15px;
+                padding: 10px;
             }
 
             .chat-input-container {
-                padding: 15px;
+                padding: 10px;
             }
 
             .user-bubble {
@@ -821,9 +821,6 @@
 
                 <div class="disclaimer">
                     <div class="disclaimer-content">
-                        <svg class="disclaimer-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm1,15H11V11h2Zm0-8H11V7h2Z"/>
-                        </svg>
                         <div class="disclaimer-text">
                             <strong>NOTE:</strong> This chat bot returns answers based on information shared by other Indonesian parents who have sent their kids to study in Canada. Where applicable, links to reliable sources will be provided for your further research.
                         </div>
@@ -833,7 +830,7 @@
                 <!-- Feedback Button -->
                 <div class="feedback-button">
                     <button class="feedback-btn-main" id="feedbackButton">
-                        💬 Send Feedback
+                        Send Feedback
                     </button>
                 </div>
             </div>
@@ -864,7 +861,7 @@
     <!-- Feedback Modal -->
     <div class="modal-overlay" id="feedbackModal">
         <div class="modal-content">
-            <div class="modal-title">💬 Send Us Your Feedback</div>
+            <div class="modal-title">Send Us Your Feedback</div>
             <div class="modal-subtitle">
                 Help us improve PERANTAU CONNECT! Share your thoughts, suggestions, or report any issues you've encountered.
             </div>
@@ -1125,19 +1122,16 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
                             </svg>
-                            Helpful
                         </button>
                         <button class="feedback-btn thumbs-down" data-feedback="not-helpful" onclick="sendQuickFeedback(\`${plainText.replace(/`/g, '\\`')}\`, 'not-helpful', this)">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/>
                             </svg>
-                            Not helpful
                         </button>
                         <button class="copy-button" onclick="copyToClipboard(\`${plainText.replace(/`/g, '\\`')}\`, this)">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                             </svg>
-                            Copy
                         </button>
                     </div>
                 `;
