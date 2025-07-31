@@ -1291,7 +1291,7 @@
             text = text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
             
             // Convert line breaks
-            text = text.replace(/\n\n/g, '<br>');
+            text = text.replace(/\n\n/g, '<br><br>');
             text = text.replace(/\n/g, '<br>');
             
             // Wrap in paragraphs if not already structured
