@@ -25,6 +25,7 @@
             --border-color: #3a3a3a;
             --copy-btn-bg: #4a4a4a;
             --copy-btn-hover: #5a5a5a;
+            --copy-btn-after: #5a5a5a;
         }
 
         [data-theme="light"] {
@@ -41,6 +42,7 @@
             --border-color: #dee2e6;
             --copy-btn-bg: #e9ecef;
             --copy-btn-hover: #dee2e6;
+            --copy-btn-after: #dee2e6;
         }
 
         body {
@@ -50,7 +52,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
 
         /* Top Navigation Bar */
@@ -95,7 +97,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
 
         .theme-toggle:hover {
@@ -106,7 +108,7 @@
             width: 20px;
             height: 20px;
             color: var(--text-primary);
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
 
         /* Main Container */
@@ -125,7 +127,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
         }
 
         .welcome-section {
@@ -133,7 +135,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 20px;
             text-align: center;
         }
@@ -142,7 +144,7 @@
             font-size: 32px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             line-height: 1.3;
         }
 
@@ -150,7 +152,7 @@
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 10px;
+            padding: 40px;
             display: none;
         }
 
@@ -159,7 +161,7 @@
         }
 
         .message-group {
-            margin-bottom: 24px;
+            margin-bottom: 10px;
             width: 100%;
         }
 
@@ -167,7 +169,7 @@
         .user-message {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .user-bubble {
@@ -184,7 +186,7 @@
         .ai-message {
             background: var(--ai-bg);
             color: var(--text-primary);
-            padding: 20px 0;
+            padding: 5px 0;
             width: 100%;
             position: relative;
         }
@@ -265,14 +267,14 @@
 
         /* Copy Button */
         .copy-button {
-            background: var(--copy-btn-bg);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: 0px solid var(--border-color);
             border-radius: 6px;
-            padding: 4px 6px;
+            padding: 0px 0px;
             cursor: pointer;
             font-size: 12px;
             color: var(--text-secondary);
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -287,22 +289,22 @@
         }
 
         .copy-button:hover {
-            background: var(--copy-btn-hover);
+            background: transparent;
             color: var(--text-primary);
         }
 
         .copy-button.copied {
-            background: var(--accent-color);
-            color: white;
+            background: transparent;
+            color: var(--copy-btn-hover);
         }
 
         /* Feedback Buttons */
         .feedback-buttons {
             display: flex;
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 2px;
             opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.1s ease;
         }
 
         .message-group:hover .feedback-buttons {
@@ -313,23 +315,23 @@
             background: transparent; /* Changed from var(--copy-btn-bg) */
             border: 0px solid var(--border-color);
             border-radius: 6px;
-            padding: 4px 6px;
+            padding: 2px 6px;
             cursor: pointer;
             font-size: 12px;
             color: var(--text-secondary);
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
         .feedback-btn:hover {
-            background: var(--copy-btn-hover);
+            background: transparent;
             color: var(--text-primary);
         }
 
         .feedback-btn.selected {
-            background: var(--accent-color);
+            background: var(--copy-btn-after);
             color: white;
         }
 
@@ -368,13 +370,24 @@
             40% { transform: scale(1); opacity: 1; }
         }
 
-        /* Chat Input Area - Fixed at bottom */
+        /* Chat Input Area - Centered */
         .chat-input-container {
             position: sticky;
-            bottom: 0;
+            bottom: 15rem;
             background: var(--bg-primary);
             padding: 20px;
             z-index: 50;
+            transition: all 0.1s ease;
+            /* Add these for initial centering */
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input-container.chat-started {
+            min-height: auto;
+            align-items: stretch;
+            bottom: 0;
         }
 
         .input-wrapper {
@@ -388,7 +401,7 @@
             border-radius: 24px;
             padding: 4px;
             border: 2px solid var(--border-color);
-            transition: border-color 0.2s ease;
+            transition: border-color 0.1s ease;
             margin-bottom: 16px;
         }
 
@@ -408,6 +421,7 @@
             resize: none;
             min-height: 24px;
             max-height: 120px;
+            transition: all 0.1s ease;
         }
 
         .chat-input::placeholder {
@@ -424,7 +438,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.1s ease;
             margin: 4px;
         }
 
@@ -443,45 +457,122 @@
             fill: white;
         }
 
-        /* Template Buttons */
-        .template-buttons {
+        /* NEW: Horizontal Template Categories */
+        .template-categories {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 10px; /* Reduced gap */
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        .template-buttons.hidden {
+        .template-categories.hidden {
             display: none;
         }
 
-        .template-btn {
-            background: var(--bg-tertiary);
+        .category-container {
+            position: relative;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-primary);
-            padding: 12px 20px;
-            border-radius: 12px;
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--copy-btn-hover);
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            background: var(--bg-secondary);
+            border-color: var(--bg-secondary);
+            color: white;
+        }
+
+        .category-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.8;
+        }
+
+        /* Sample Questions - Now as wide bubbles */
+        .sample-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            margin-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .sample-questions.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            margin-bottom: 16px;
+            max-height: 300px;
+        }
+
+        .sample-question-btn {
+            display: block;
+            width: 70%;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 14px 20px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 14px;
+            text-align: left;
+            margin: 0 auto 5px auto;
         }
 
-        .template-btn:hover {
-            background: var(--copy-btn-hover);
-            border-color: var(--accent-color);
+        .sample-question-btn:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--copy-btn-hover);
+            color: var(--text-primary);
+            transform: translateY(-1px);
         }
 
         /* Reset Button */
         .reset-button {
             background: var(--copy-btn-bg);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 20px;
             padding: 8px 12px;
             color: var(--text-secondary);
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -545,14 +636,14 @@
         }
 
         .feedback-btn-main {
-            background: #2a2a2a;
-            border: 1px solid #4a4a4a;
+            background: #4a4a4a;
+            border: 1px solid #2a2a2a;
             border-radius: 8px;
             padding: 10px 20px;
             color: var(--text-primary);
             font-size: 14px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -564,12 +655,12 @@
         }
 
         .feedback-btn-main:hover {
-            background: #3a3a3a;
+            background: transparent;
             border-color: #555;
         }
 
         [data-theme="light"] .feedback-btn-main:hover {
-            background: #e9ecef;
+            background: transparent;
             border-color: #adb5bd;
         }
 
@@ -631,7 +722,7 @@
             color: var(--text-primary);
             font-size: 16px;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.1s ease;
         }
 
         .form-input:focus, .form-textarea:focus {
@@ -658,7 +749,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background-color 0.1s ease;
             margin-bottom: 10px;
         }
 
@@ -749,14 +840,20 @@
                 font-size: 18px;
             }
 
-            .template-buttons {
+            .category-buttons {
                 flex-direction: column;
                 align-items: center;
             }
 
-            .template-btn {
+            .category-btn {
+                padding: 12px 16px;
                 width: 100%;
-                max-width: 300px;
+                max-width: 200px;
+            }
+
+            .sample-question-btn {
+                padding: 12px 16px;
+                font-size: 13px;
             }
         }
     </style>
@@ -784,13 +881,7 @@
     <!-- Main Container -->
     <div class="main-container">
         <div class="chat-interface" id="chatInterface">
-            <!-- Welcome Section -->
-            <div class="welcome-section" id="welcomeSection">
-                <div class="welcome-text">
-                    Hello! Ask anything about studying or living in Canada.
-                </div>
-            </div>
-
+            
             <!-- Chat Messages Area -->
             <div class="chat-messages" id="chatMessages">
                 <!-- Messages will be dynamically added here -->
@@ -800,9 +891,51 @@
         <!-- Chat Input Area - Fixed at bottom -->
         <div class="chat-input-container">
             <div class="input-wrapper">
-                <!-- Template Buttons -->
-                <div class="template-buttons" id="templateButtons">
-                    <!-- Template buttons will be populated by JavaScript -->
+                <!-- Welcome Section - now inside input container -->
+                <div class="welcome-section" id="welcomeSection">
+                    <div class="welcome-text">
+                        Hello! Ask anything about studying or living in Canada.
+                    </div>
+                </div>
+
+                <!-- NEW: Template Categories (Horizontal above chat bar) -->
+                <div class="template-categories" id="templateCategories">
+                    <div class="category-container">
+                        <!-- Category Buttons - Now horizontal -->
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="immigration">
+                                <svg class="category-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 7C13.1 7 14 7.9 14 9C14 10.1 13.1 11 12 11C10.9 11 10 10.1 10 9C10 7.9 10.9 7 12 7ZM18 15C18 16 17 17 16 17H8C7 17 6 16 6 15C6 14 8 13 12 13C16 13 18 14 18 15Z"/>
+                                </svg>
+                                Immigration
+                            </button>
+                            <button class="category-btn" data-category="lifestyle">
+                                <svg class="category-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z"/>
+                                </svg>
+                                Lifestyle
+                            </button>
+                            <button class="category-btn" data-category="accommodation">
+                                <svg class="category-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/>
+                                </svg>
+                                Accommodation
+                            </button>
+                            <button class="category-btn" data-category="academic">
+                                <svg class="category-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
+                                </svg>
+                                Academic
+                            </button>
+                        </div>
+
+                        <!-- Sample Questions - Now as wide bubbles below categories -->
+                        <div class="sample-questions" id="sampleQuestions">
+                            <div id="sampleQuestionsList">
+                                <!-- Sample questions will be populated here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="input-container">
@@ -898,7 +1031,9 @@
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
-        const templateButtons = document.getElementById('templateButtons');
+        const templateCategories = document.getElementById('templateCategories');
+        const sampleQuestions = document.getElementById('sampleQuestions');
+        const sampleQuestionsList = document.getElementById('sampleQuestionsList');
         const userInfoModal = document.getElementById('userInfoModal');
         const userInfoForm = document.getElementById('userInfoForm');
         const resetButton = document.getElementById('resetButton');
@@ -915,6 +1050,43 @@
         let isThinking = false;
         let userInfo = null;
         let sessionId = null;
+        let currentCategory = null;
+
+        // Sample questions data
+        const sampleQuestionsData = {
+            immigration: {
+                title: "Immigration Questions",
+                questions: [
+                    "Bagaimana jika PGWP saya ditolak?",
+                    "Bagaimanakah cara apply Permanent Residency?",
+                    "Bagaimanakah cara memperpanjang study permit?"
+                ]
+            },
+            lifestyle: {
+                title: "Lifestyle Questions", 
+                questions: [
+                    "Jenis investasi apa saja yang ada di Kanada?",
+                    "Bagaimana cara membaca paystub?",
+                    "Apa saja tips untuk menghemat biaya hidup di Kanada?"
+                ]
+            },
+            accommodation: {
+                title: "Accommodation Questions",
+                questions: [
+                    "Apa perbedaan antara on-campus dan off-campus housing?",
+                    "Bagaimana cara mencari homestay yang aman?",
+                    "Tips untuk mencari apartemen di kota besar seperti Toronto?"
+                ]
+            },
+            academic: {
+                title: "Academic Questions",
+                questions: [
+                    "Apakah bisa bekerja sambil kuliah di Kanada?",
+                    "Bagaimana sistem grading di universitas Kanada?",
+                    "Apa itu co-op program dan bagaimana cara apply?"
+                ]
+            }
+        };
 
         // Generate session ID
         function generateSessionId() {
@@ -972,14 +1144,59 @@
             return false;
         }
 
+        // Category Management
+        function showSampleQuestions(category) {
+            if (currentCategory === category) {
+                // Hide if same category clicked
+                hideSampleQuestions();
+                return;
+            }
+
+            currentCategory = category;
+            const data = sampleQuestionsData[category];
+            
+            // Clear and populate questions as wide bubbles
+            sampleQuestionsList.innerHTML = '';
+            data.questions.forEach(question => {
+                const button = document.createElement('button');
+                button.className = 'sample-question-btn';
+                button.textContent = question;
+                button.addEventListener('click', () => {
+                    chatInput.value = question;
+                    hideSampleQuestions();
+                    chatInput.focus();
+                });
+                sampleQuestionsList.appendChild(button);
+            });
+
+            // Show questions
+            sampleQuestions.classList.add('visible');
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+        }
+
+        function hideSampleQuestions() {
+            currentCategory = null;
+            sampleQuestions.classList.remove('visible');
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
         // Reset session function
         function resetSession() {
             sessionId = generateSessionId();
             chatMessages.innerHTML = '';
             chatMessages.classList.remove('visible');
             welcomeSection.style.display = 'flex';
-            templateButtons.classList.remove('hidden');
+            templateCategories.classList.remove('hidden');
+            hideSampleQuestions();
             isFirstMessage = true;
+            document.querySelector('.chat-input-container').classList.remove('chat-started');
             chatInput.value = '';
             chatInput.style.height = 'auto';
             console.log('New session started:', sessionId);
@@ -1028,7 +1245,7 @@
             try {
                 await navigator.clipboard.writeText(text);
                 const originalText = button.innerHTML;
-                button.innerHTML = '✓ Copied';
+                button.innerHTML = '✓';
                 button.classList.add('copied');
                 
                 setTimeout(() => {
@@ -1046,7 +1263,7 @@
                 document.body.removeChild(textArea);
                 
                 const originalText = button.innerHTML;
-                button.innerHTML = '✓ Copied';
+                button.innerHTML = '✓';
                 button.classList.add('copied');
                 
                 setTimeout(() => {
@@ -1106,7 +1323,6 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                         </svg>
-                        Copy
                     </button>
                 `;
             } else {
@@ -1196,11 +1412,12 @@
                 return;
             }
 
-            // Show chat messages area and hide template buttons on first message
+            // Hide welcome section and template categories on first message
             if (isFirstMessage) {
                 welcomeSection.style.display = 'none';
+                templateCategories.classList.add('hidden');
                 chatMessages.classList.add('visible');
-                templateButtons.classList.add('hidden');
+                document.querySelector('.chat-input-container').classList.add('chat-started');
                 isFirstMessage = false;
             }
 
@@ -1247,58 +1464,6 @@
                     addMessage('Sorry, I\'m having trouble connecting right now. Please try again in a moment.', 'ai');
                 }
             }
-        }
-
-        // Template button sets
-        const templateSets = [
-            [
-                { text: "Bagaimana jika PGWP saya ditolak?", message: "Bagaimana jika PGWP saya ditolak?" },
-                { text: "Apa itu SKCK?", message: "Apa itu SKCK?" },
-                { text: "Bagaimanakah cara apply Permanent Residency?", message: "Bagaimanakah cara apply Permanent Residency?" },
-                { text: "Bagaimanakah cara memperpanjang study permit?", message: "Bagaimanakah cara memperpanjang study permit?" },
-                { text: "Apakah bisa bekerja sambil kuliah di Kanada?", message: "Apakah bisa bekerja sambil kuliah di Kanada?" }
-            ],
-            [
-                { text: "Apa bedanya immigration lawyer dan immigration consultant?", message: "Apa bedanya immigration lawyer dan immigration consultant?" },
-                { text: "Apa saja dokumen untuk super visa orang tua?", message: "Apa saja dokumen untuk super visa orang tua?" },
-                { text: "Jenis investasi apa saja yang ada di Kanada?", message: "Jenis investasi apa saja yang ada di Kanada?" },
-                { text: "Apa itu LMIA?", message: "Apa itu LMIA?" },
-                { text: "Bagaimana cara membaca paystub?", message: "Bagaimana cara membaca paystub?" }
-            ]
-        ];
-
-        // Initialize template buttons
-        function initializeTemplateButtons() {
-            const templateButtonsContainer = document.getElementById('templateButtons');
-            if (!templateButtonsContainer) {
-                console.error('Template buttons container not found');
-                return;
-            }
-
-            const randomSet = templateSets[Math.floor(Math.random() * templateSets.length)];
-            
-            templateButtonsContainer.innerHTML = '';
-            randomSet.forEach(template => {
-                const button = document.createElement('button');
-                button.className = 'template-btn';
-                button.setAttribute('data-message', template.message);
-                button.textContent = template.text;
-                templateButtonsContainer.appendChild(button);
-            });
-
-            // Add event listeners to new buttons
-            document.querySelectorAll('.template-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const message = this.getAttribute('data-message');
-                    chatInput.value = message;
-                    
-                    if (!userInfo) {
-                        showUserInfoModal();
-                    } else {
-                        chatInput.focus();
-                    }
-                });
-            });
         }
 
         // Auto-resize textarea
@@ -1417,11 +1582,28 @@
             }
         }
 
+        // Category button event listeners
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                showSampleQuestions(category);
+            });
+        });
+
+        // Click outside to hide sample questions
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.category-container')) {
+                hideSampleQuestions();
+            }
+        });
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeTheme();
-            initializeTemplateButtons();
             updateCharacterCounter();
+            
+            // Add this line:
+            document.querySelector('.main-container').classList.add('centered');
             
             // Check for saved user info, if not found, show modal
             if (!checkSavedUserInfo()) {
