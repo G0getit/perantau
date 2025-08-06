@@ -18,48 +18,64 @@
             --text-primary: #ffffff;
             --text-secondary: #cccccc;
             --text-muted: #888888;
-            --accent-color: #007AFF;
-            --accent-hover: #0056CC;
-            --user-bubble: #007AFF;
+            --accent-color: #b85c3e;
+            --accent-hover: #b86245;
+            --user-bubble: #6a6a6a;
             --ai-bg: transparent;
             --border-color: #3a3a3a;
+            --border-color-secondary: #cccccc;
             --copy-btn-bg: #4a4a4a;
             --copy-btn-hover: #5a5a5a;
             --copy-btn-after: #5a5a5a;
         }
 
         [data-theme="light"] {
-            --bg-primary: #ffffff;
+            --bg-primary: #f7f5f3;
             --bg-secondary: #f8f9fa;
             --bg-tertiary: #e9ecef;
-            --text-primary: #212529;
+            --text-primary: #1f2937;
             --text-secondary: #495057;
             --text-muted: #6c757d;
-            --accent-color: #0066cc;
-            --accent-hover: #0052a3;
-            --user-bubble: #0066cc;
+            --accent-color: #b85c3e;
+            --accent-hover: #b86245;
+            --user-bubble: #dbd3c8;
             --ai-bg: transparent;
-            --border-color: #dee2e6;
+            --border-color: #e7e7e7;
+            --border-color-secondary: #1a1a1a;
             --copy-btn-bg: #e9ecef;
             --copy-btn-hover: #dee2e6;
             --copy-btn-after: #dee2e6;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             transition: all 0.1s ease;
+            background-color: var(--bg-primary);
+        }
+        
+        /* Articles Link, Top Nav Bar */
+        .articles-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 400;
+            margin-left: 24px;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .articles-link:hover {
+            color: var(--accent-color);
         }
 
         /* Top Navigation Bar */
         .top-nav {
             height: 60px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -76,8 +92,8 @@
 
         .site-name {
             color: var(--text-primary);
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 900;
             margin-left: 16px;
         }
 
@@ -89,8 +105,8 @@
 
         /* Theme Toggle */
         .theme-toggle {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: 1px solid var(--border-color-secondary);
             border-radius: 20px;
             padding: 6px;
             cursor: pointer;
@@ -141,7 +157,7 @@
         }
 
         .welcome-text {
-            font-size: 32px;
+            font-size: 48px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 20px;
@@ -174,12 +190,13 @@
 
         .user-bubble {
             background: var(--user-bubble);
-            color: white;
+            color: var(--text-primary);
             padding: 12px 18px;
             border-radius: 18px 18px 4px 18px;
             max-width: 70%;
             word-wrap: break-word;
             position: relative;
+            font-weight: 450;
         }
 
         /* AI Messages */
@@ -372,22 +389,24 @@
 
         /* Chat Input Area - Centered */
         .chat-input-container {
-            position: sticky;
-            bottom: 15rem;
-            background: var(--bg-primary);
+            /* Remove: position: sticky, bottom: auto, margin: 20% auto auto auto, min-height: 100% */
+            background: transparent;
             padding: 20px;
             z-index: 50;
             transition: all 0.1s ease;
-            /* Add these for initial centering */
-            min-height: 100%;
             display: flex;
             align-items: center;
+            justify-content: center; /* centers horizontally too */
+            height: 90vh;
         }
 
         .chat-input-container.chat-started {
+            position: sticky;
             min-height: auto;
             align-items: stretch;
             bottom: 0;
+            flex: none;
+            height: auto;
         }
 
         .input-wrapper {
@@ -400,9 +419,10 @@
             background: var(--bg-secondary);
             border-radius: 24px;
             padding: 4px;
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             transition: border-color 0.1s ease;
             margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
         }
 
         .input-container:focus-within {
@@ -462,7 +482,7 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 0;
             position: relative;
         }
 
@@ -484,7 +504,7 @@
 
         .category-btn {
             background: transparent;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color-secondary);
             color: var(--text-primary);
             padding: 10px 16px;
             border-radius: 20px;
@@ -508,7 +528,7 @@
         }
 
         .category-btn.active {
-            background: var(--bg-secondary);
+            background: var(--accent-color);
             border-color: var(--bg-secondary);
             color: white;
         }
@@ -537,7 +557,7 @@
             opacity: 1;
             visibility: visible;
             transform: translateY(-10px);
-            margin-bottom: 16px;
+            margin-top: 1.5rem;
             max-height: 300px;
         }
 
@@ -557,7 +577,7 @@
         }
 
         .sample-question-btn:hover {
-            background: var(--bg-tertiary);
+            background: var(--copy-btn-hover);
             border-color: var(--copy-btn-hover);
             color: var(--text-primary);
             transform: translateY(-1px);
@@ -565,8 +585,8 @@
 
         /* Reset Button */
         .reset-button {
-            background: var(--copy-btn-bg);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: 1px solid var(--border-color-secondary);
             border-radius: 20px;
             padding: 8px 12px;
             color: var(--text-secondary);
@@ -588,7 +608,7 @@
             transform: none; /* Remove the centering transform */
             background: var(--bg-tertiary);
             color: var(--text-primary);
-            padding: 6px 10px;
+            padding: 6px 6px;
             border-radius: 4px;
             font-size: 12px;
             white-space: nowrap;
@@ -642,6 +662,7 @@
             padding: 10px 20px;
             color: var(--text-primary);
             font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.1s ease;
             display: flex;
@@ -651,7 +672,7 @@
 
         [data-theme="light"] .feedback-btn-main {
             background: #f8f9fa;
-            border-color: #dee2e6;
+            border: 1px solid var(--border-color);
         }
 
         .feedback-btn-main:hover {
@@ -863,6 +884,7 @@
     <nav class="top-nav">
         <div class="nav-left">
             <div class="site-name">PERANTAU CONNECT</div>
+            <a href="https://perantauconnect.wordpress.com" target="_blank" class="articles-link" title="Complete Articles">Articles</a>
         </div>
         <div class="nav-right">
             <button class="theme-toggle" id="themeToggle">
@@ -894,7 +916,7 @@
                 <!-- Welcome Section - now inside input container -->
                 <div class="welcome-section" id="welcomeSection">
                     <div class="welcome-text">
-                        Hello! Ask anything about studying or living in Canada.
+                        Ask anything about studying or living in Canada.
                     </div>
                 </div>
 
@@ -926,6 +948,12 @@
                                     <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
                                 </svg>
                                 Academic
+                            </button>
+                            <button class="category-btn" data-category="finances">
+                                <svg class="category-icon" viewBox="0 0 24 24" fill="currentColor">
+                                   <path d="M14,11H10a2,2,0,0,1,0-4h5a1,1,0,0,1,1,1,1,1,0,0,0,2,0,3,3,0,0,0-3-3H13V3a1,1,0,0,0-2,0V5H10a4,4,0,0,0,0,8h4a2,2,0,0,1,0,4H9a1,1,0,0,1-1-1,1,1,0,0,0-2,0,3,3,0,0,0,3,3h2v2a1,1,0,0,0,2,0V19h1a4,4,0,0,0,0-8Z"/>
+                                </svg>
+                                Finances
                             </button>
                         </div>
 
@@ -1065,17 +1093,17 @@
             lifestyle: {
                 title: "Lifestyle Questions", 
                 questions: [
-                    "Jenis investasi apa saja yang ada di Kanada?",
-                    "Bagaimana cara membaca paystub?",
-                    "Apa saja tips untuk menghemat biaya hidup di Kanada?"
+                    "Apa itu Ontario ID dan bagaimana cara mendapatkannya?",
+                    "Tips untuk melewati musim dingin pertama di Kanada.",
+                    "Bagaimanakah cara mendapatkan Driver's License di BC?"
                 ]
             },
             accommodation: {
                 title: "Accommodation Questions",
                 questions: [
-                    "Apa perbedaan antara on-campus dan off-campus housing?",
-                    "Bagaimana cara mencari homestay yang aman?",
-                    "Tips untuk mencari apartemen di kota besar seperti Toronto?"
+                    "Apakah saya harus keluar dorm saat summer?",
+                    "Bagaimana jika saya belum punya tempat tinggal saat datang ke Kanada?",
+                    "Tips menghindari penipuan rental unit di Kanada."
                 ]
             },
             academic: {
@@ -1083,7 +1111,15 @@
                 questions: [
                     "Apakah bisa bekerja sambil kuliah di Kanada?",
                     "Bagaimana sistem grading di universitas Kanada?",
-                    "Apa itu co-op program dan bagaimana cara apply?"
+                    "Apa itu co-op program dan bagaimana cara apply-nya?"
+                ]
+            },
+            finances: {
+                title: "Finances Questions",
+                questions: [
+                    "Jenis investasi apa saja yang ada di Kanada?",
+                    "Bagaimana cara membaca paystub?",
+                    "Apa tips hidup hemat di Kanada?"
                 ]
             }
         };
@@ -1291,12 +1327,12 @@
             text = text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>');
             
             // Convert line breaks
-            text = text.replace(/\n\n/g, '<br><br>');
+            text = text.replace(/\n\n/g, '<br>');
             text = text.replace(/\n/g, '<br>');
             
             // Wrap in paragraphs if not already structured
             if (!text.includes('<h1>') && !text.includes('<h2>') && !text.includes('<ul>') && !text.includes('<ol>')) {
-                text = '<p>' + text + '</p>';
+                text = text;
             }
             
             return text;
@@ -1418,6 +1454,7 @@
             addMessage(message, 'user');
             chatInput.value = '';
             chatInput.style.height = 'auto';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             // Show thinking bubble
             showThinking();
