@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 200,
             headers: {
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': 'https://perantau.netlify.app',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Methods': 'POST, OPTIONS'
             }
@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
         return { 
             statusCode: 405, 
-            headers: { 'Access-Control-Allow-Origin': '*' },
+            headers: { 'Access-Control-Allow-Origin': 'https://perantau.netlify.app' },
             body: 'Method Not Allowed' 
         };
     }
@@ -82,7 +82,7 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 200,
-            headers: { 'Access-Control-Allow-Origin': '*' },
+            headers: { 'Access-Control-Allow-Origin': 'https://perantau.netlify.app' },
             body: JSON.stringify({ 
                 success: true,
                 message: feedback.type === 'user_feedback' 
@@ -95,7 +95,7 @@ exports.handler = async (event, context) => {
         console.error('Feedback error:', error);
         return {
             statusCode: 500,
-            headers: { 'Access-Control-Allow-Origin': '*' },
+            headers: { 'Access-Control-Allow-Origin': 'https://perantau.netlify.app' },
             body: JSON.stringify({ 
                 error: 'Failed to save feedback',
                 details: error.message 

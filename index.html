@@ -1216,6 +1216,13 @@
         let sessionId = null;
         let currentCategory = null;
         let thinkingTimer = null;
+        
+        // Add this function to clean dangerous code from messages
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         // Sample questions data
         const sampleQuestionsData = {
@@ -1466,9 +1473,9 @@
             if (sender === 'user') {
                 messageGroup.innerHTML = `
                     <div class="user-message">
-                        <div class="user-bubble">${text}</div>
+                        <div class="user-bubble">${escapeHtml(text)}</div>
                     </div>
-                    <button class="copy-button" onclick="copyToClipboard('${text.replace(/'/g, "\\'")}', this)">
+                    <button class="copy-button" onclick="copyToClipboard('${escapeHtml(text)}.replace(/'/g, "\\'")}', this)">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                         </svg>

@@ -4,7 +4,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://perantau.netlify.app',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS'
       }
@@ -14,7 +14,7 @@ exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
     return { 
       statusCode: 405, 
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: { 'Access-Control-Allow-Origin': 'https://perantau.netlify.app' },
       body: 'Method Not Allowed' 
     };
   }
@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://perantau.netlify.app',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
@@ -46,7 +46,7 @@ exports.handler = async (event, context) => {
   } catch (error) {
     return {
       statusCode: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: { 'Access-Control-Allow-Origin': 'https://perantau.netlify.app' },
       body: JSON.stringify({ error: 'Server error: ' + error.message })
     };
   }
