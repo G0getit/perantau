@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (response.ok) {
+                    setCookie('newsletter_subscribed', 'true', 90);
+                    trackNewsletterSignup('popup');
                     alert('Thank you for subscribing! You will receive our latest updates soon.');
                     hideNewsletterPopup();
                 } else {
@@ -110,10 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Analytics tracking (placeholder for future implementation)
+// In home.js - Update the trackFeatureClick function:
 function trackFeatureClick(featureName) {
     console.log('Feature clicked:', featureName);
-    // Future: Add Google Analytics or other tracking
+    
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'click', {
+            event_category: 'Feature',
+            event_label: featureName,
+            value: 1
+        });
+    }
 }
 
 // Add click tracking to navigation

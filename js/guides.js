@@ -202,6 +202,7 @@ async function handleDownload(email, subscribe) {
             alert(`Thank you! Download information for "${currentGuide.title}" has been sent to ${email}`);
             hideEmailModal();
             trackDownload(currentGuide.title, email);
+            trackNewsletterSignup('guide_download');
         } else {
             throw new Error('Failed to process download');
         }
@@ -215,15 +216,29 @@ async function handleDownload(email, subscribe) {
     }
 }
 
-// Track download (placeholder for analytics)
+// In guides.js - Update the trackDownload function:
 function trackDownload(guideTitle, email) {
     console.log('Guide downloaded:', guideTitle, 'by', email);
-    // Future: Add Google Analytics or other tracking
-    // gtag('event', 'download', {
-    //     event_category: 'Guide',
-    //     event_label: guideTitle,
-    //     custom_parameter_1: email
-    // });
+    
+    // Send to Google Analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'download', {
+            event_category: 'Guide',
+            event_label: guideTitle,
+            value: 1
+        });
+    }
+}
+
+// Add newsletter subscription tracking (add to home.js):
+function trackNewsletterSignup(source) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'sign_up', {
+            event_category: 'Newsletter',
+            event_label: source, // 'popup' or 'guide_download'
+            value: 1
+        });
+    }
 }
 
 // Show error message

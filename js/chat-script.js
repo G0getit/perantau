@@ -36,6 +36,17 @@
     let currentCategory = null;
     let thinkingTimer = null;
     
+    // Add chat interaction tracking (add to chat-script.js):
+    function trackChatMessage(messageType) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'chat_interaction', {
+                event_category: 'Chat',
+                event_label: messageType, // 'message_sent' or 'feedback_given'
+                value: 1
+            });
+        }
+    }
+    
     // Add this function to clean dangerous code from messages
     function escapeHtml(text) {
         const div = document.createElement('div');
@@ -429,6 +440,7 @@
 
         // Add user message
         addMessage(message, 'user');
+        trackChatMessage('message_sent');
         chatInput.value = '';
         chatInput.style.height = 'auto';
 
@@ -615,6 +627,7 @@
         } catch (error) {
             console.error('Failed to send quick feedback:', error);
         }
+        trackChatMessage('feedback_given');
     }
 
     // Category button event listeners
