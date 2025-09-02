@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "node-fetch": "^3.3.2",
-    "googleapis": "^108.0.0"
+    "googleapis": "^108.0.0",
+    "@supabase/supabase-js": "^2.38.0"
   }
 }

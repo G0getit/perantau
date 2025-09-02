@@ -1,0 +1,109 @@
+{
+  "guides": [
+    {
+      "id": "study-permit-guide",
+      "title": "Complete Study Permit Application Guide",
+      "description": "Step-by-step instructions for Indonesian students applying for a Canadian study permit. Includes document checklist, timeline, and common mistakes to avoid.",
+      "category": "Immigration",
+      "url": "https://example.com/guides/study-permit-guide.pdf",
+      "featured": true
+    },
+    {
+      "id": "housing-accommodation-guide",
+      "title": "Housing & Accommodation Guide for Students",
+      "description": "Comprehensive guide covering on-campus dorms, off-campus rentals, homestays, and tips for finding safe and affordable housing in major Canadian cities.",
+      "category": "Accommodation",
+      "url": "https://example.com/guides/housing-guide.pdf",
+      "featured": true
+    },
+    {
+      "id": "financial-planning-guide",
+      "title": "Financial Planning for International Students",
+      "description": "Learn how to budget for tuition, living expenses, and emergency funds. Includes information about bank accounts, credit building, and money transfer options.",
+      "category": "Finances",
+      "url": "https://example.com/guides/financial-planning.pdf",
+      "featured": false
+    },
+    {
+      "id": "first-week-survival-guide",
+      "title": "Your First Week in Canada - Survival Guide",
+      "description": "Essential tasks and tips for your first week in Canada. From SIN applications to phone plans, this guide helps you settle in quickly and efficiently.",
+      "category": "Lifestyle",
+      "url": "https://example.com/guides/first-week-guide.pdf",
+      "featured": true
+    },
+    {
+      "id": "academic-success-guide",
+      "title": "Academic Success in Canadian Universities",
+      "description": "Navigate the Canadian education system with confidence. Learn about grading systems, academic integrity, professor interactions, and study strategies.",
+      "category": "Academic",
+      "url": "https://example.com/guides/academic-success.pdf",
+      "featured": false
+    },
+    {
+      "id": "pgwp-application-guide",
+      "title": "Post-Graduation Work Permit (PGWP) Guide",
+      "description": "Everything you need to know about applying for PGWP, eligibility requirements, application process, and tips for a successful application.",
+      "category": "Immigration",
+      "url": "https://example.com/guides/pgwp-guide.pdf",
+      "featured": false
+    },
+    {
+      "id": "winter-preparation-guide",
+      "title": "Surviving Your First Canadian Winter",
+      "description": "Comprehensive guide to preparing for harsh Canadian winters. Includes clothing essentials, winter driving tips, and maintaining mental health during cold months.",
+      "category": "Lifestyle",
+      "url": "https://example.com/guides/winter-survival.pdf",
+      "featured": false
+    },
+    {
+      "id": "healthcare-insurance-guide",
+      "title": "Healthcare and Insurance Guide",
+      "description": "Understanding Canadian healthcare system, provincial health insurance, international student insurance options, and how to access medical care.",
+      "category": "Health",
+      "url": "https://example.com/guides/healthcare-guide.pdf",
+      "featured": false
+    },
+    {
+      "id": "co-op-internship-guide",
+      "title": "Co-op and Internship Success Guide",
+      "description": "Maximize your co-op and internship opportunities. Learn about application processes, interview preparation, and making the most of work experience.",
+      "category": "Academic",
+      "url": "https://example.com/guides/coop-guide.pdf",
+      "featured": false
+    },
+    {
+      "id": "permanent-residence-guide",
+      "title": "Path to Permanent Residence in Canada",
+      "description": "Explore different immigration pathways for international students, including Express Entry, Provincial Nominee Programs, and Canadian Experience Class.",
+      "category": "Immigration",
+      "url": "https://example.com/guides/permanent-residence.pdf",
+      "featured": false
+    },
+    {
+      "id": "taxes-filing-guide",
+      "title": "Canadian Tax Filing Guide for Students",
+      "description": "Learn how to file your Canadian taxes as an international student. Includes information about tax benefits, deductions, and required documentation.",
+      "category": "Finances",
+      "url": "https://example.com/guides/tax-filing.pdf",
+      "featured": false
+    },
+    {
+      "id": "transportation-guide",
+      "title": "Transportation Guide for Canadian Cities",
+      "description": "Navigate public transportation systems in major Canadian cities. Includes student discounts, transit apps, and tips for getting around efficiently.",
+      "category": "Lifestyle",
+      "url": "https://example.com/guides/transportation.pdf",
+      "featured": false
+    }
+  ],
+  "categories": [
+    "Immigration",
+    "Accommodation", 
+    "Finances",
+    "Academic",
+    "Lifestyle",
+    "Health",
+    "Legal"
+  ]
+}
