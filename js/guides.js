@@ -189,7 +189,7 @@ async function handleDownload(email, subscribe) {
     
     try {
         // Capture email to Supabase
-        const response = await fetch('/.netlify/functions/email-capture', {
+        const response = await fetch('/.netlify/functions/email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
