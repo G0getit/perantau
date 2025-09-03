@@ -361,8 +361,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    background: #e8f4f8;
-    border-left: 4px solid var(--accent-color);
+    background: transparent;
 }
 
 .contact-field.notes-field label {
@@ -370,8 +369,8 @@
 }
 
 .contact-field.notes-field span {
-    line-height: 1.5;
-    font-style: italic;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
 
 .contact-field label {

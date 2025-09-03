@@ -1,8 +1,8 @@
 // Jasa Titip page with Supabase integration
 
 // Supabase configuration
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://tckjxyymdwxykwdcyija.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja2p4eXltZHd4eWt3ZGN5aWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2OTEzNzgsImV4cCI6MjA2ODI2NzM3OH0.cXXTGsEWJAKdqkJNM3asSP3HKeCDguMEn9hWYRwklUA';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -17,7 +17,7 @@ async function loadListingsData() {
         
         // Only get approved listings that haven't expired
         const { data, error } = await supabase
-            .from('jasa_titip_listings')
+            .from('jasa_titip_submissions')
             .select('*')
             .eq('status', 'approved')
             .gt('expires_at', new Date().toISOString())
@@ -73,6 +73,14 @@ function showLoading() {
     
     if (loadingState) {
         loadingState.style.display = 'flex';
+    }
+}
+
+// Hide loading state
+function hideLoading() {
+    const loadingState = document.getElementById('loadingState');
+    if (loadingState) {
+        loadingState.style.display = 'none';
     }
 }
 
