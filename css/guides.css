@@ -104,6 +104,8 @@
 }
 
 .guide-card {
+    content: "COMING SOON";
+    opacity: 0.6;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -114,6 +116,10 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+.guide-footer {
+    opacity: 0.3;
 }
 
 .guide-card:hover {
