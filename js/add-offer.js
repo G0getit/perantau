@@ -121,16 +121,11 @@ function validateRequiredFields() {
 // Validate checkboxes
 function validateCheckboxes() {
     const agreeTerms = document.getElementById('agreeTerms');
-    const confirmPayment = document.getElementById('confirmPayment');
     
     const missingChecks = [];
     
     if (!agreeTerms.checked) {
         missingChecks.push('You must agree to the terms and conditions');
-    }
-    
-    if (!confirmPayment.checked) {
-        missingChecks.push('You must confirm that payment has been sent');
     }
     
     return missingChecks;
@@ -466,4 +461,5 @@ style.textContent = `
         }
     }
 `;
+
 document.head.appendChild(style);
